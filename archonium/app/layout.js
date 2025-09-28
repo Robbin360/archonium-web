@@ -3,6 +3,23 @@ import './globals.css';
 export const metadata = {
   title: 'ARCHONIUM — Architects of Economic Inevitability',
   description: 'Strategic infrastructure transformation',
+  openGraph: {
+    title: 'ARCHONIUM — Architects of Economic Inevitability',
+    description: 'Strategic infrastructure transformation',
+    url: 'https://archonium.com',
+    siteName: 'ARCHONIUM',
+    images: [
+      { url: 'https://archonium.com/og.jpg', width: 1200, height: 630, alt: 'ARCHONIUM' },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ARCHONIUM — Architects of Economic Inevitability',
+    description: 'Strategic infrastructure transformation',
+    images: ['https://archonium.com/og.jpg'],
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -16,6 +33,7 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
       </head>
       <body>
+        <a className="skip-link" href="#content">Skip to content</a>
         <header className="top-nav" role="navigation" aria-label="Primary">
           <div className="nav-inner">
             <a className="brand" href="#hero">ARCHONIUM</a>

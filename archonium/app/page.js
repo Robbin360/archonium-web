@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Page() {
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
-    // Inline the essentials from scripts/main.js adapted for React lifecycle
     const doc = document;
 
     const revealHeadline = () => {
@@ -56,7 +57,6 @@ export default function Page() {
           if (e.isIntersecting && !once.hasRun) {
             once.hasRun = true;
             metrics.forEach(go);
-            io.disconnect();
           }
         });
       }, { threshold: 0.3 });
@@ -112,10 +112,7 @@ export default function Page() {
       let raf = requestAnimationFrame(draw);
       const onVis = () => { if (doc.hidden) cancelAnimationFrame(raf); else raf = requestAnimationFrame(draw); };
       const onRm = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const syncRM = () => {
-        if (onRm.matches) cancelAnimationFrame(raf);
-        else raf = requestAnimationFrame(draw);
-      };
+      const syncRM = () => { if (onRm.matches) cancelAnimationFrame(raf); else raf = requestAnimationFrame(draw); };
       resize();
       window.addEventListener('resize', resize);
       doc.addEventListener('visibilitychange', onVis);
@@ -186,8 +183,14 @@ export default function Page() {
           path.setAttribute('stroke', 'rgba(125, 211, 252, 0.45)');
           path.setAttribute('stroke-width', '1.5');
           path.setAttribute('stroke-linecap', 'round');
-          path.style.strokeDasharray = '6 8';
+          const length = (path.getTotalLength ? path.getTotalLength() : 400);
+          path.style.strokeDasharray = `${length}`;
+          path.style.strokeDashoffset = `${length}`;
           svg.appendChild(path);
+          requestAnimationFrame(() => {
+            path.style.transition = 'stroke-dashoffset 1400ms ease';
+            path.style.strokeDashoffset = '0';
+          });
           const circle = document.createElementNS(svgns, 'circle');
           circle.setAttribute('r', '2');
           circle.setAttribute('fill', 'rgba(199, 242, 132, 0.9)');
@@ -206,12 +209,7 @@ export default function Page() {
         });
       };
       const io3 = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            update();
-            window.addEventListener('resize', update);
-          }
-        });
+        entries.forEach(entry => { if (entry.isIntersecting) { update(); window.addEventListener('resize', update); } });
       }, { threshold: 0.2 });
       io3.observe(svg);
     };
@@ -250,6 +248,23 @@ export default function Page() {
       dashValues.forEach(el => io4.observe(el));
     };
 
+    const scrollSpy = () => {
+      const links = Array.from(document.querySelectorAll('.nav-links a'));
+      const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      const clear = () => links.forEach(l => l.classList.remove('is-active'));
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            clear();
+            const id = `#${e.target.id}`;
+            const link = links.find(l => l.getAttribute('href') === id);
+            if (link) link.classList.add('is-active');
+          }
+        });
+      }, { threshold: 0.5 });
+      sections.forEach(s => io.observe(s));
+    };
+
     revealHeadline();
     startCountUps();
     initHeroGrid();
@@ -257,6 +272,10 @@ export default function Page() {
     thesisCountups();
     ecosystemConnections();
     validationCountups();
+    scrollSpy();
+
+    const cta = document.querySelector('.cta-primary');
+    if (cta) cta.addEventListener('click', () => setShowModal(true));
   }, []);
 
   return (
@@ -269,7 +288,7 @@ export default function Page() {
             </h1>
             <p className="hero-thesis">Infrastructure transformation will occur. Strategic advantage belongs to those who architect it first.</p>
             <div className="hero-cta">
-              <button className="cta-primary" data-action="open-assessment">Assess Infrastructure Advantage</button>
+              <button className="cta-primary" onClick={() => setShowModal(true)} data-action="open-assessment">Assess Infrastructure Advantage</button>
               <span className="qualification-note">Fortune 500+ enterprises only</span>
             </div>
             <div className="hero-metrics" aria-label="Key metrics">
@@ -486,6 +505,20 @@ export default function Page() {
           </div>
         </div>
       </section>
+
+      {showModal && (
+        <div role="dialog" aria-modal="true" className="modal">
+          <div className="modal-panel">
+            <h3>Infrastructure Advantage Assessment</h3>
+            <p>Begin the assessment to quantify modernization urgency and competitive upside.</p>
+            <div className="modal-actions">
+              <button className="cta-primary">Start Assessment</button>
+              <button onClick={() => setShowModal(false)}>Close</button>
+            </div>
+          </div>
+          <div className="modal-backdrop" onClick={() => setShowModal(false)} />
+        </div>
+      )}
     </main>
   );
 }
