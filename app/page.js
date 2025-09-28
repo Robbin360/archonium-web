@@ -1,9 +1,34 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import Section from './components/Section';
+import Card from './components/Card';
+import Button from './components/Button';
 
 export default function Page() {
   const [showModal, setShowModal] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const heroRef = useRef(null);
+
+  // Control animation visibility on scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    
+    if (heroRef.current) {
+      observer.observe(heroRef.current);
+    }
+    
+    return () => {
+      if (heroRef.current) {
+        observer.unobserve(heroRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const doc = document;
@@ -279,54 +304,145 @@ export default function Page() {
   }, []);
 
   return (
-    <main id="content" tabIndex={-1}>
-      <section id="hero" className="hero-inevitability">
-        <div className="hero-grid">
+    <main className="modern-layout">
+      <nav className="top-nav glass-effect">
+        <div className="nav-inner">
+          <div className="brand">ARCHONIUM</div>
+          <div className="nav-links">
+            <a href="#ecosystem" className="nav-link">Ecosystem</a>
+            <a href="#methodology" className="nav-link">Methodology</a>
+            <a href="#research" className="nav-link">Research</a>
+            <a href="#partnership" className="nav-link">Partnership</a>
+          </div>
+        </div>
+      </nav>
+
+      <section id="hero" className="hero-inevitability" ref={heroRef}>
+        <div className={`hero-grid ${isVisible ? 'fade-in' : ''}`}>
           <div className="hero-content">
             <h1 className="inevitable-headline" aria-live="polite">
-              ARCHITECTS OF <span className="emphasis">ECONOMIC</span> INEVITABILITY
+              El <span className="emphasis">Futuro</span> Inevitable de la Inteligencia Descentralizada
             </h1>
-            <p className="hero-thesis">Infrastructure transformation will occur. Strategic advantage belongs to those who architect it first.</p>
+            <p className="hero-thesis">
+              Archonium está liderando la convergencia entre inteligencia artificial y tecnología blockchain, 
+              creando un nuevo paradigma para la inteligencia descentralizada que transformará nuestra interacción 
+              con sistemas autónomos.
+            </p>
             <div className="hero-cta">
-              <button className="cta-primary" onClick={() => setShowModal(true)} data-action="open-assessment">Assess Infrastructure Advantage</button>
-              <span className="qualification-note">Fortune 500+ enterprises only</span>
+              <button className="cta-primary pulse-effect" onClick={() => setShowModal(true)} data-action="open-assessment">
+                Únete a la Lista de Espera
+              </button>
+              <span className="qualification-note">Acceso limitado para socios cualificados</span>
             </div>
             <div className="hero-metrics" aria-label="Key metrics">
-              <div className="metric" data-countup="180" data-suffix="B+">$0</div>
-              <div className="metric" data-countup="47" data-suffix="%">0%</div>
-              <div className="metric" data-countup="18" data-suffix="-Month">0</div>
+              <div className="metric card-effect" data-countup="94" data-suffix="%">0%</div>
+              <div className="metric card-effect" data-countup="18" data-suffix="-Meses">0-Meses</div>
+              <div className="metric card-effect" data-countup="2.4" data-suffix="B+">$0B+</div>
             </div>
           </div>
-          <div className="hero-visual" aria-hidden="true">
+          <div className="hero-visual animated-bg" aria-hidden="true">
             <canvas id="heroGrid"></canvas>
           </div>
         </div>
       </section>
 
-      <section id="research" className="infrastructure-reality section-pad">
-        <div className="thesis-container">
-          <h2>The Infrastructure Inevitability</h2>
-          <div className="reality-grid reveal-on-scroll">
-            <div className="reality-point">
-              <div className="impact-number" data-countup="47" data-suffix="B">$0</div>
-              <p>Annual losses from legacy infrastructure failures</p>
-            </div>
-            <div className="reality-point">
-              <div className="impact-number" data-countup="18" data-suffix="–36">0</div>
-              <p>Months average enterprise modernization timeline</p>
-            </div>
-            <div className="reality-point">
-              <div className="impact-number" data-countup="400" data-suffix="%">0%</div>
-              <p>Performance improvement with strategic architecture</p>
-            </div>
+      <Section 
+        id="ecosystem" 
+        title="Nuestro Ecosistema" 
+        subtitle="Descubre las soluciones que ofrecemos para transformar tu negocio"
+        background="gradient"
+      >
+        <div className="features-grid">
+          <Card 
+            title="Inteligencia Artificial" 
+            description="Soluciones avanzadas de IA que optimizan procesos y generan insights valiosos para tu negocio."
+            icon={<div className="icon-circle"><span>🧠</span></div>}
+          />
+          <Card 
+            title="Blockchain" 
+            description="Tecnología blockchain segura y transparente para transacciones y contratos inteligentes."
+            icon={<div className="icon-circle"><span>🔗</span></div>}
+          />
+          <Card 
+            title="Análisis de Datos" 
+            description="Herramientas potentes para analizar grandes volúmenes de datos y obtener información accionable."
+            icon={<div className="icon-circle"><span>📊</span></div>}
+          />
+          <Card 
+            title="Automatización" 
+            description="Automatiza procesos repetitivos y libera el potencial creativo de tu equipo."
+            icon={<div className="icon-circle"><span>⚙️</span></div>}
+          />
+        </div>
+      </Section>
+
+      <Section 
+        id="methodology" 
+        title="Nuestra Metodología" 
+        subtitle="Un enfoque sistemático para transformar tu infraestructura digital"
+      >
+        <div className="methodology-steps">
+          <div className="step">
+            <div className="step-number">01</div>
+            <h3>Análisis</h3>
+            <p>Evaluamos tu infraestructura actual y definimos objetivos claros para la transformación.</p>
           </div>
-          <div className="thesis-statement">
-            <blockquote>
-              &quot;Every Fortune 500 enterprise will undergo infrastructure transformation within the next decade. Strategic advantage belongs to those who architect this inevitability rather than react to it.&quot;
-            </blockquote>
+          <div className="step">
+            <div className="step-number">02</div>
+            <h3>Diseño</h3>
+            <p>Creamos una arquitectura personalizada que se adapta a tus necesidades específicas.</p>
+          </div>
+          <div className="step">
+            <div className="step-number">03</div>
+            <h3>Implementación</h3>
+            <p>Desarrollamos e integramos soluciones tecnológicas de vanguardia.</p>
+          </div>
+          <div className="step">
+            <div className="step-number">04</div>
+            <h3>Optimización</h3>
+            <p>Mejoramos continuamente el rendimiento basándonos en datos y feedback.</p>
           </div>
         </div>
-      </section>
+      </Section>
+
+      <Section 
+        id="research" 
+        title="Investigación y Desarrollo" 
+        subtitle="Estamos a la vanguardia de la innovación tecnológica"
+        background="dark"
+      >
+        <div className="research-grid">
+          <div className="research-content">
+            <h3>Innovación Continua</h3>
+            <p>Nuestro equipo de investigación trabaja constantemente en el desarrollo de nuevas tecnologías que transformarán el futuro digital.</p>
+            <ul className="research-list">
+              <li>Algoritmos de aprendizaje profundo</li>
+              <li>Sistemas descentralizados autónomos</li>
+              <li>Procesamiento de lenguaje natural avanzado</li>
+              <li>Análisis predictivo de datos masivos</li>
+            </ul>
+            <button className="button button-outline">
+              Conoce nuestras publicaciones
+            </button>
+          </div>
+          <div className="research-visual">
+            <div className="research-stats">
+              <div className="stat-item">
+                <div className="stat-value">24+</div>
+                <div className="stat-label">Patentes</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-value">87%</div>
+                <div className="stat-label">Precisión</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-value">12+</div>
+                <div className="stat-label">Años de investigación</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
 
       <section id="ecosystem" className="archonium-ecosystem section-pad">
         <div className="ecosystem-header">
