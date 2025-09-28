@@ -1,13 +1,26 @@
-# Node
+# Dependencies
 node_modules/
-.archonium/.next/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Next.js
 .next/
-
-# Build
 out/
+.vercel/
+.turbo/
 
-# OS
+# Env files
+.env
+.env.*
+!.env.example
+
+# Editors/OS
 .DS_Store
+.idea/
+.vscode/*
+*.swp
 
-# Env
-.env*
+# Coverage
+coverage/
