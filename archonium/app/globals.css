@@ -1,0 +1,5 @@
+@import url('../styles/main.css');
+
+/* Scoped overrides for Next root if needed */
+html, body { height: 100%; }
+

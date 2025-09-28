@@ -1,0 +1,13 @@
+# Node
+node_modules/
+.archonium/.next/
+.next/
+
+# Build
+out/
+
+# OS
+.DS_Store
+
+# Env
+.env*
