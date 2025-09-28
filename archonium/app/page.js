@@ -322,7 +322,7 @@ export default function Page() {
           </div>
           <div className="thesis-statement">
             <blockquote>
-              "Every Fortune 500 enterprise will undergo infrastructure transformation within the next decade. Strategic advantage belongs to those who architect this inevitability rather than react to it."
+              &quot;Every Fortune 500 enterprise will undergo infrastructure transformation within the next decade. Strategic advantage belongs to those who architect this inevitability rather than react to it.&quot;
             </blockquote>
           </div>
         </div>

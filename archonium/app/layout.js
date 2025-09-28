@@ -1,4 +1,7 @@
 import './globals.css';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'ARCHONIUM — Architects of Economic Inevitability',
@@ -28,11 +31,8 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="color-scheme" content="dark light" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
       </head>
-      <body>
+      <body className={inter.className}>
         <a className="skip-link" href="#content">Skip to content</a>
         <header className="top-nav" role="navigation" aria-label="Primary">
           <div className="nav-inner">
