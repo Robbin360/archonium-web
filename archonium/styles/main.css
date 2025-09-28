@@ -187,7 +187,9 @@ a { color: inherit; text-decoration: none; }
 .live-metric { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 12px 14px; }
 .metric-label { color: var(--muted); font-size: 12px; display: block; }
 .metric-value { font-size: 22px; font-weight: 800; color: var(--accent); }
-.world-infrastructure-map { height: 260px; margin-top: 12px; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.12); background: radial-gradient(600px 300px at 80% 10%, rgba(125,211,252,0.08), transparent); }
+.world-infrastructure-map { position: relative; height: 260px; margin-top: 12px; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.12); overflow: hidden; background: radial-gradient(600px 300px at 80% 10%, rgba(125,211,252,0.08), transparent); }
+.world-infrastructure-map::after { content: ''; position: absolute; inset: -20% -20% auto -20%; height: 40%; background: linear-gradient(90deg, transparent, rgba(125,211,252,0.2), transparent); transform: rotate(12deg); animation: scan 6s linear infinite; }
+@keyframes scan { 0% { top: -30%; } 100% { top: 110%; } }
 
 @media (max-width: 960px) {
   .case-studies { grid-template-columns: 1fr; }
