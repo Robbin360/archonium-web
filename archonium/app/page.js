@@ -507,8 +507,8 @@ export default function Page() {
       </section>
 
       {showModal && (
-        <div role="dialog" aria-modal="true" className="modal">
-          <div className="modal-panel">
+        <div role="dialog" aria-modal="true" className="modal" onKeyDown={(e) => { if (e.key === 'Escape') setShowModal(false); }}>
+          <div className="modal-panel" tabIndex={-1} autoFocus>
             <h3>Infrastructure Advantage Assessment</h3>
             <p>Begin the assessment to quantify modernization urgency and competitive upside.</p>
             <div className="modal-actions">
